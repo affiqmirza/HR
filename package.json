@@ -1,0 +1,8 @@
+{
+  "name": "hr-harassment-report",
+  "version": "1.0.0",
+  "description": "HR Harassment Report System",
+  "scripts": {
+    "start": "echo 'Please use a PHP server to run this application'"
+  }
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Harassment Report Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h1 class="text-2xl font-bold mb-6 text-gray-800">Harassment Report Form</h1>
+            <form id="reportForm" class="space-y-4">
+                <div>
+                    <label for="reporter_name" class="block text-sm font-medium text-gray-700">Your Name</label>
+                    <input type="text" id="reporter_name" name="reporter_name" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                    <label for="reporter_email" class="block text-sm font-medium text-gray-700">Your Email</label>
+                    <input type="email" id="reporter_email" name="reporter_email" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                    <label for="incident_date" class="block text-sm font-medium text-gray-700">Date of Incident</label>
+                    <input type="date" id="incident_date" name="incident_date" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                
+                <div>
+                    <label for="incident_description" class="block text-sm font-medium text-gray-700">Description of Incident</label>
+                    <textarea id="incident_description" name="incident_description" rows="4" required
+                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                </div>
+                
+                <div>
+                    <label for="witnesses" class="block text-sm font-medium text-gray-700">Witnesses (if any)</label>
+                    <input type="text" id="witnesses" name="witnesses"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit"
+                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Submit Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('reportForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                reporter_name: document.getElementById('reporter_name').value,
+                reporter_email: document.getElementById('reporter_email').value,
+                incident_date: document.getElementById('incident_date').value,
+                incident_description: document.getElementById('incident_description').value,
+                witnesses: document.getElementById('witnesses').value
+            };
+            
+            try {
+                const response = await fetch('submit_report.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('Report submitted successfully');
+                    e.target.reset();
+                } else {
+                    alert('Error submitting report: ' + result.message);
+                }
+            } catch (error) {
+                alert('Error submitting report: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
